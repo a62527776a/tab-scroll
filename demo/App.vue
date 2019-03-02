@@ -1,0 +1,188 @@
+<template lang="pug">
+  .wrapper
+    .tab-wrapper
+      .tab-item(
+        v-for="(value, key, idx) in tabs"
+        :class="{'tab-item-active' : currentTab === key}"
+        @click="clickTabItem(key, idx)") {{key}}
+    vue-horizontal-scroll(
+      @scrollEnd="horizontalScroll"
+      ref="vue-horizontal-scroll"
+    )
+      vue-vertical-scroll(
+        :verticalScrollOpt="{pullDownRefresh: true}"
+        @pullingUp="pullingUp(key)"
+        @pullingDown="pullingDown(key)"
+        :ref="'vertical-scroll-' + key"
+        v-for="(value, key, idx) in tabs"
+        :key="key")
+        .content-wrapper
+          .load-mask(v-if="!value.data") 加载中 请稍后...
+          .content-wrapper-list(v-else)
+            img(
+              :src="img.urls.thumb"
+              :key="idx"
+              @load="refreshWrapper(key)"
+              v-for="(img, idx) in value.data"
+              v-if="idx % 2 === 1")
+          .content-wrapper-list(v-if="value.data")
+            img(
+              :src="img.urls.thumb" 
+              :key="idx"
+              @load="refreshWrapper(key)"
+              v-for="(img, idx) in value.data" 
+              v-if="idx % 2 === 0")
+        .load-more(v-if="value.data") {{tabs[key].isEnd ? '没有了...' : '加载中...'}}
+</template>
+
+<script>
+import axios from 'axios'
+
+export default {
+  name: 'App',
+  data () {
+    return {
+      tabs: {
+        'Nature': {
+          data: null,
+          page: 1,
+          isEnd: false
+        }, 
+        'Beauty': {
+          data: null,
+          page: 1,
+          isEnd: false
+        }, 
+        'Sports': {
+          data: null,
+          page: 1,
+          isEnd: false
+        }, 
+        'Sea': {
+          data: null,
+          page: 1,
+          isEnd: false
+        }, 
+        'Flower': {
+          data: null,
+          page: 1,
+          isEnd: false
+        }, 
+        'Animals': {
+          data: null,
+          page: 1,
+          isEnd: false
+        }, 
+        'Food': {
+          data: null,
+          page: 1,
+          isEnd: false
+        }, 
+        'Drink': {
+          data: null,
+          page: 1,
+          isEnd: false
+        }, 
+        'Arts': {
+          data: null,
+          page: 1,
+          isEnd: false
+        }
+      },
+      currentTab: 'Nature'
+    }
+  },
+  methods: {
+    // 横向的滚动 滚动后更改聚焦的tab
+    horizontalScroll: function (e) {
+      this.currentTab = Object.keys(this.tabs)[e]
+      this.findDataBy(Object.keys(this.tabs)[e])
+    },
+    clickTabItem: function (key, idx) {
+      this.currentTab = key
+      console.log(this.$refs['vue-horizontal-scroll'])
+      this.$refs['vue-horizontal-scroll'].goToPage(idx)
+    },
+    findDataBy: async function (node_name, isRefresh = false) {
+      try {
+        if (isRefresh) this.tabs[node_name].page = 1
+        let result = await axios.get(`https://dscsdoj.top/api/source/unsplash?size=12&type=${node_name}&page=${this.tabs[node_name].page}`)
+        this.tabs[node_name].page++
+        if (!this.tabs[node_name].data || isRefresh) this.tabs[node_name].data = []
+        this.tabs[node_name].data = this.tabs[node_name].data.concat(result.data.data.results)
+        this.$nextTick(() => {
+          if (isRefresh) {
+            this.$refs['vertical-scroll-' + node_name][0].BScroll.finishPullDown()
+            this.$refs['vertical-scroll-' + node_name][0].BScroll.refresh()
+          } else {
+            this.$refs['vertical-scroll-' + node_name][0].BScroll.refresh()
+            this.$refs['vertical-scroll-' + node_name][0].BScroll.finishPullUp()
+          }
+        })
+      } catch (e) {
+        window.alert('加载失败，请重试')
+        if (isRefresh) {
+          this.$refs['vertical-scroll-' + node_name][0].BScroll.finishPullDown()
+          this.$refs['vertical-scroll-' + node_name][0].BScroll.refresh()
+        } else {
+          this.$refs['vertical-scroll-' + node_name][0].BScroll.refresh()
+          this.$refs['vertical-scroll-' + node_name][0].BScroll.finishPullUp()
+        }
+      }
+    },
+    pullingDown: async function (key) {
+      this.findDataBy(key, true)
+    },
+    pullingUp: async function (key) {
+      this.findDataBy(key)
+    },
+    refreshWrapper: function (key) {
+      this.$refs['vertical-scroll-' + key][0].BScroll.refresh()
+    }
+  },
+  mounted () {
+    this.findDataBy('Nature')
+  },
+}
+</script>
+
+<style lang="sass">
+body
+  margin: 0;
+  .tab-wrapper
+    padding: 5px
+    border-bottom: 1px solid #e2e2e2
+    .tab-item
+      display: inline-block;
+      font-size: 13px;
+      line-height: 16px;
+      padding: 5px 6px 5px 6px;
+      margin-right: 5px;
+      border-radius: 3px;
+      color: #555;
+    .tab-item-active
+      color: #fff;
+      background-color: #334;
+  .content-wrapper
+    padding: 5px 11px
+    display: flex;
+    justify-content: space-between
+    .load-mask
+      margin-top: 30vh
+      width: 100vw;
+      justify-content: center;
+      align-items: center;
+      display: flex;
+      color: #7e8c8d;
+    .content-wrapper-list
+      width: 49.5%;
+    img
+      width: 100%;
+      break-inside: avoid;
+      box-sizing: border-box;
+      background: #EEE;
+  .load-more
+    text-align: center;
+    padding: 6px 0;
+    color: #7e8c8d;
+</style>
