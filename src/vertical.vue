@@ -71,17 +71,20 @@ export default {
 }
 </script>
 
-<style lang="sass">
-  .vue-vertical-wrapper
+<style lang="less" scoped>
+  .vue-vertical-wrapper {
     width: 100vw;
     position: relative;
     height: 100%
-    .vue-vertical
+  }
+    .vue-vertical {
       min-height: calc(100% + 1px)
-    .refresh-status-bar
+    }
+    .refresh-status-bar {
       position: absolute;
       width: 100%;
       color: #7e8c8d;
       text-align: center;
       top: -30px;
+    }
 </style>

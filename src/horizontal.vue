@@ -84,12 +84,14 @@ export default {
 }
 </script>
 
-<style lang="sass">
-  .vue-horizontal-wrapper
+<style lang="less" scoped>
+  .vue-horizontal-wrapper {
     width: 100%;
     overflow: hidden;
-    .vue-horizontal
+    .vue-horizontal {
       display: flex;
       justify-content: center;
       align-items: center;
+    }
+  }
 </style>

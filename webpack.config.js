@@ -8,7 +8,11 @@ module.exports = {
   },
   output: {
     path: path.resolve(__dirname + '/dist'),
+    filename: 'tab-scroll.js',
     libraryTarget: 'umd'
+  },
+  externals: {
+    'better-scroll': 'better-scroll'
   },
   module: {
     rules: [{
@@ -22,13 +26,19 @@ module.exports = {
     }, {
       test: /\.css$/,
       loader: 'style!css!autoprefixer'
-    }, {
-      test: /\.less$/,
-      loader: 'style!less'
     }, { 
       test: /\.pug$/, 
       use: ['pug-plain-loader'] 
-    }]
+    }, {
+      test: /\.less$/,
+      use: [{
+          loader: "style-loader" // creates style nodes from JS strings
+      }, {
+          loader: "css-loader" // translates CSS into CommonJS
+      }, {
+          loader: "less-loader" // compiles Less to CSS
+      }]
+  }]
   },
   plugins: [
     new UglifyJsPlugin({

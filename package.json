@@ -1,29 +1,46 @@
 {
   "name": "tab-scroll",
-  "version": "0.1.0",
-  "private": true,
+  "version": "0.0.2",
+  "main": "/dist/tab-scroll.js",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "webpack --config ./webpack.config.js",
     "demo-build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/a62527776a/tab-scroll.git"
+  },
+  "keywords": [
+    "vue",
+    "tab-scroll",
+    "better-scroll"
+  ],
+  "author": "chenyu <a13868300128a@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/a62527776a/tab-scroll/issues"
+  },
   "dependencies": {
-    "better-scroll": "^1.14.1"
   },
   "devDependencies": {
-    "axios": "^0.18.0",
+    "better-scroll": "^1.14.1",
     "@vue/cli-plugin-babel": "^3.4.0",
     "@vue/cli-plugin-eslint": "^3.4.0",
     "@vue/cli-service": "^3.4.0",
+    "axios": "^0.18.0",
     "babel-eslint": "^10.0.1",
     "eslint": "^5.8.0",
     "eslint-plugin-vue": "^5.0.0",
+    "less": "^3.9.0",
+    "less-loader": "^4.1.0",
     "node-sass": "^4.11.0",
     "pug": "^2.0.3",
     "pug-loader": "^2.4.0",
     "pug-plain-loader": "^1.0.0",
     "sass-loader": "^7.1.0",
+    "style-loader": "^0.23.1",
     "uglifyjs-webpack-plugin": "^2.1.2",
     "vue": "^2.6.6",
     "vue-template-compiler": "^2.5.21",
