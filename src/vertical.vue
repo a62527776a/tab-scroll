@@ -1,7 +1,8 @@
 <template lang="pug">
   .vue-vertical-wrapper(ref="vue-vertical-wrapper")
     .vue-vertical
-      .refresh-status-bar(v-if="verticalScrollOpt.pullDownRefresh") {{pullDownStatus}}
+      .refresh-status-bar(v-if="verticalScrollOpt.pullDownRefresh")
+        slot(name="refresh-status-bar") {{pullDownStatus}}
       slot
 </template>
 
@@ -49,12 +50,15 @@ export default {
       this.BScroll.on('scroll', () => {
         if (this.BScroll.y === 40) {
           this.pullDownStatus = this.pullDownStatusKeyOpt['正在载入']
+          this.$emit('pullDownStatusChange', '正在载入')
         }
         if (this.BScroll.y < 40) {
           this.pullDownStatus = this.pullDownStatusKeyOpt['下拉刷新']
+          this.$emit('pullDownStatusChange', '下拉刷新')
         }
         if (this.BScroll.y > 40) {
           this.pullDownStatus = this.pullDownStatusKeyOpt['释放刷新']
+          this.$emit('pullDownStatusChange', '释放刷新')
         }
       })
       this.BScroll.on('pullingUp', () => {

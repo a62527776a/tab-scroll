@@ -15,9 +15,11 @@
           :verticalScrollOpt="{pullDownRefresh: true}"
           @pullingUp="pullingUp(key)"
           @pullingDown="pullingDown(key)"
+          @pullDownStatusChange="computedPullDownStatus(value, arguments)"
           :ref="'vertical-scroll-' + key"
           v-for="(value, key, idx) in tabs"
           :key="key")
+          div(slot="refresh-status-bar") {{value.pullDownStatus}}
           .content-wrapper
             .load-mask(v-if="!value.data") 加载中 请稍后...
             .content-wrapper-list(v-else)
@@ -48,47 +50,56 @@ export default {
         'Nature': {
           data: null,
           page: 1,
-          isEnd: false
+          isEnd: false,
+          pullDownStatus: '下拉刷新'
         }, 
         'Beauty': {
           data: null,
           page: 1,
-          isEnd: false
+          isEnd: false,
+          pullDownStatus: '下拉刷新'
         }, 
         'Sports': {
           data: null,
           page: 1,
-          isEnd: false
+          isEnd: false,
+          pullDownStatus: '下拉刷新'
         }, 
         'Sea': {
           data: null,
           page: 1,
-          isEnd: false
+          isEnd: false,
+          pullDownStatus: '下拉刷新'
         }, 
         'Flower': {
           data: null,
           page: 1,
-          isEnd: false
+          isEnd: false,
+          pullDownStatus: '下拉刷新'
         }, 
         'Animals': {
           data: null,
           page: 1,
-          isEnd: false
+          isEnd: false,
+          pullDownStatus: '下拉刷新'
         }, 
         'Food': {
           data: null,
           page: 1,
-          isEnd: false
+          isEnd: false,
+          pullDownStatus: '下拉刷新'
         }, 
         'Drink': {
           data: null,
           page: 1,
-          isEnd: false
+          isEnd: false,
+          pullDownStatus: '下拉刷新'
         }, 
         'Arts': {
           data: null,
           page: 1,
-          isEnd: false
+          isEnd: false,
+          pullDownStatus: '下拉刷新'
         }
       },
       currentTab: 'Nature',
@@ -122,7 +133,6 @@ export default {
           }
         })
       } catch (e) {
-        window.alert('加载失败，请重试')
         if (isRefresh) {
           this.$refs['vertical-scroll-' + node_name][0].BScroll.finishPullDown()
           this.$refs['vertical-scroll-' + node_name][0].BScroll.refresh()
@@ -143,6 +153,9 @@ export default {
     },
     lockBody: function (e) {
       e.preventDefault();
+    },
+    computedPullDownStatus: function (item, argumens) {
+      item.pullDownStatus = argumens[0]
     }
   },
   mounted () {
