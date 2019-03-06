@@ -11,6 +11,7 @@
         ref="vue-horizontal-scroll"
         :height="screenHeight"
       )
+        vue-vertical-scroll
         vue-vertical-scroll(
           :verticalScrollOpt="{pullDownRefresh: true}"
           @pullingUp="pullingUp(key)"
@@ -60,42 +61,6 @@ export default {
           pullDownStatus: '下拉刷新'
         }, 
         'Sports': {
-          data: null,
-          page: 1,
-          isEnd: false,
-          pullDownStatus: '下拉刷新'
-        }, 
-        'Sea': {
-          data: null,
-          page: 1,
-          isEnd: false,
-          pullDownStatus: '下拉刷新'
-        }, 
-        'Flower': {
-          data: null,
-          page: 1,
-          isEnd: false,
-          pullDownStatus: '下拉刷新'
-        }, 
-        'Animals': {
-          data: null,
-          page: 1,
-          isEnd: false,
-          pullDownStatus: '下拉刷新'
-        }, 
-        'Food': {
-          data: null,
-          page: 1,
-          isEnd: false,
-          pullDownStatus: '下拉刷新'
-        }, 
-        'Drink': {
-          data: null,
-          page: 1,
-          isEnd: false,
-          pullDownStatus: '下拉刷新'
-        }, 
-        'Arts': {
           data: null,
           page: 1,
           isEnd: false,

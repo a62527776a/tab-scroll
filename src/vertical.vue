@@ -1,7 +1,7 @@
 <template lang="pug">
   .vue-vertical-wrapper(ref="vue-vertical-wrapper")
     .vue-vertical
-      .refresh-status-bar(v-if="verticalScrollOpt.pullDownRefresh")
+      .refresh-status-bar(v-if="options.pullDownRefresh")
         slot(name="refresh-status-bar") {{pullDownStatus}}
       slot
 </template>
@@ -12,7 +12,7 @@ import BScroll from 'better-scroll'
 export default {
   name: 'vue-vertical-scroll',
   props: {
-    verticalScrollOpt: {
+    options: {
       type: Object,
       default: () => {
         return {}
@@ -45,7 +45,7 @@ export default {
   },
   methods: {
     initBScroll: function () {
-      let opt = Object.assign(this.verticalScrollDefaultOpt, this.verticalScrollOpt)
+      let opt = Object.assign(this.verticalScrollDefaultOpt, this.options)
       this.BScroll = new BScroll(this.$refs['vue-vertical-wrapper'], opt)
       this.BScroll.on('scroll', () => {
         if (this.BScroll.y === 40) {
