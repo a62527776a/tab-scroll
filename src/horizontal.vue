@@ -63,7 +63,7 @@ export default {
       if (this.$slots.header) {
         // 如果为数字 则直接使用
         if (typeof this.offsetY === 'number') {
-          this.defaultHeight = window.screen.height - offsetY
+          this.defaultHeight = window.screen.height - this.offsetY
         } else {
           // 如果为字符串 则使用运算函数
           this.defaultHeight = `calc(${(window.screen.height + 'px')} - ${this.offsetY})`
