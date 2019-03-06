@@ -6,6 +6,7 @@
         ref="vue-horizontal-scroll"
         offsetY="55.5px"
         height="611.5px"
+        @directionYChange="directionYChange"
       )
         .header-wrapper(slot="header")
           .tab-wrapper
@@ -22,7 +23,7 @@
             .tab-item(
               v-for="(value, key, idx) in tabs"
               :class="{'tab-item-active' : currentTab === key}"
-              @click="clickTabItem(key, idx)") {{key}}
+              @click="clickTabItem(key, idx)") {{key}}{{directionY === 1 ? '向上': '向下'}}
         vue-vertical-scroll(
           :options="{pullDownRefresh: true}"
           @pullingUp="pullingUp(key)"
@@ -79,7 +80,8 @@ export default {
         }
       },
       currentTab: 'Nature',
-      screenHeight: (667 - 37) + 'px'
+      screenHeight: (667 - 37) + 'px',
+      directionY: 1
     }
   },
   methods: {
@@ -91,6 +93,9 @@ export default {
     clickTabItem: function (key, idx) {
       this.currentTab = key
       this.$refs['vue-horizontal-scroll'].goToPage(idx)
+    },
+    directionYChange: function (key) {
+      this.directionY = key
     },
     findDataBy: async function (node_name, isRefresh = false) {
       try {

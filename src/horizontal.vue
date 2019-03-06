@@ -110,8 +110,10 @@ export default {
           vm.componentInstance.BScroll.on('scroll', () => {
             if (vm.componentInstance.BScroll.movingDirectionY === 1) {
               this.wrapperScroll.scrollTo(0, this.wrapperScroll.maxScrollY, 300, 'ease')
+              this.$emit('directionYChange', 1)
             } else {
               this.wrapperScroll.scrollTo(0, 0, 300, 'ease')
+              this.$emit('directionYChange', -1)
             }
           })
         })
