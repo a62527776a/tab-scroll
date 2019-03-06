@@ -1,19 +1,29 @@
 <template lang="pug">
   .wrapper
     .mobile-wrapper
-      .tab-wrapper
-        .tab-item(
-          v-for="(value, key, idx) in tabs"
-          :class="{'tab-item-active' : currentTab === key}"
-          @click="clickTabItem(key, idx)") {{key}}
       vue-horizontal-scroll(
         @scrollEnd="horizontalScroll"
         ref="vue-horizontal-scroll"
-        :height="screenHeight"
+        offsetY="55.5px"
       )
-        vue-vertical-scroll
+        .header-wrapper(slot="header")
+          .tab-wrapper
+            .tab-item(
+              v-for="(value, key, idx) in tabs"
+              :class="{'tab-item-active' : currentTab === key}"
+              @click="clickTabItem(key, idx)") {{key}}
+          .tab-wrapper
+            .tab-item(
+              v-for="(value, key, idx) in tabs"
+              :class="{'tab-item-active' : currentTab === key}"
+              @click="clickTabItem(key, idx)") {{key}}
+          .tab-wrapper
+            .tab-item(
+              v-for="(value, key, idx) in tabs"
+              :class="{'tab-item-active' : currentTab === key}"
+              @click="clickTabItem(key, idx)") {{key}}
         vue-vertical-scroll(
-          :verticalScrollOpt="{pullDownRefresh: true}"
+          :options="{pullDownRefresh: true}"
           @pullingUp="pullingUp(key)"
           @pullingDown="pullingDown(key)"
           @pullDownStatusChange="computedPullDownStatus(value, arguments)"
@@ -68,7 +78,7 @@ export default {
         }
       },
       currentTab: 'Nature',
-      screenHeight: (667 - 63) + 'px'
+      screenHeight: (667 - 37) + 'px'
     }
   },
   methods: {
@@ -189,5 +199,9 @@ body {
     padding: 6px 0;
     color: #7e8c8d;
   }
+}
+.header-wrapper {
+  height: calc(37px * 3);
+  background: white;
 }
 </style>

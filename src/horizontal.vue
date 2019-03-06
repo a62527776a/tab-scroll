@@ -1,7 +1,10 @@
 <template lang="pug">
-.vue-horizontal-wrapper(ref="vue-horizontal-wrapper")
-  .vue-horizontal(:style="{ 'height' : defaultHeight, 'width': horizontalWidth}" ref="vue-horizontal")
-    slot
+.vue-main-scroll-wrapper(ref="wrapper-scroll" :class="{ 'has-header-wrapper' : $slots.header }")
+  .vue-main-scroll
+    slot(name="header")
+    .vue-horizontal-wrapper(ref="vue-horizontal-wrapper")
+      .vue-horizontal(:style="{ 'height' : defaultHeight, 'width': horizontalWidth}" ref="vue-horizontal")
+        slot
 </template>
 
 <script>
@@ -19,6 +22,10 @@ export default {
     height: {
       type: String,
       default: ''
+    },
+    offsetY: {
+      type: String || Number,
+      default: 0
     }
   },
   data () {
@@ -39,7 +46,8 @@ export default {
           stepX: 0,
           threshold: 0.2
         }
-      }
+      },
+      wrapperScroll: null
     }
   },
   methods: {
@@ -51,7 +59,19 @@ export default {
      */
     computedHeight: function () {
       if (this.height) return this.defaultHeight = this.height
+      // 如果有header的slot 那个下高度为屏幕高度 如果有自定义offsetY 则增加自定义的offsetY
+      if (this.$slots.header) {
+        // 如果为数字 则直接使用
+        if (typeof this.offsetY === 'number') {
+          this.defaultHeight = window.screen.height - offsetY
+        } else {
+          // 如果为字符串 则使用运算函数
+          this.defaultHeight = `calc(${(window.screen.height + 'px')} - ${this.offsetY})`
+        }
+        return
+      }
       let screenHeight = window.screen.height
+      // 如果没有header 则高度为屏幕高度减去上放留空的
       let offsetTop = this.BScroll.wrapperOffset.top
       this.defaultHeight = (screenHeight + offsetTop) + 'px'
     },
@@ -61,12 +81,19 @@ export default {
      */
     computedWidth: function () {
       this.horizontalWidth = this.$refs['vue-horizontal'].children.length + '00vw'
-      this.$nextTick(() => {
-        this.initBScroll()
-      })
     },
     goToPage: function (idx) {
       this.BScroll.goToPage(idx, 0)
+    },
+    initWrapperScroll: function () {
+      this.wrapperScroll = new BScroll(this.$refs['wrapper-scroll'], {
+        click: false,
+        scrollY: true,
+        bounce: false,
+        probeType: 3,
+        eventPassthrough: 'horizontal'
+      })
+      this.wrapperScroll.disable()
     },
     initBScroll: function () {
       let opt = Object.assign(this.horizontalScrollDefaultOpt, this.options)
@@ -75,16 +102,38 @@ export default {
         this.currentIdx = this.BScroll.getCurrentPage().pageX
         this.$emit('scrollEnd', this.currentIdx)
       })
-      this.computedHeight()
+      if (this.$slots.header) this.initWrapperScroll()
+    },
+    listenMovingDirectionY: function () {
+      if (this.$slots.header) {
+        this.$slots.default.map(vm => {
+          vm.componentInstance.BScroll.on('scroll', () => {
+            if (vm.componentInstance.BScroll.movingDirectionY === 1) {
+              this.wrapperScroll.scrollTo(0, this.wrapperScroll.maxScrollY, 300, 'ease')
+            } else {
+              this.wrapperScroll.scrollTo(0, 0, 300, 'ease')
+            }
+          })
+        })
+      }
     }
   },
   mounted () {
+    this.computedHeight()
     this.computedWidth()
+    this.$nextTick(() => {
+      this.initBScroll()
+      this.listenMovingDirectionY()
+    })
   }
 }
 </script>
 
 <style lang="less" scoped>
+  .has-header-wrapper {
+    height: 100vh;
+    overflow: hidden;
+  }
   .vue-horizontal-wrapper {
     width: 100%;
     overflow: hidden;
