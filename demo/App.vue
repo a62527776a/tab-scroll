@@ -5,6 +5,7 @@
         @scrollEnd="horizontalScroll"
         ref="vue-horizontal-scroll"
         offsetY="55.5px"
+        height="611.5px"
       )
         .header-wrapper(slot="header")
           .tab-wrapper
