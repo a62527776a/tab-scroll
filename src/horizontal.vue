@@ -66,7 +66,7 @@ export default {
           this.defaultHeight = window.screen.height + this.BScroll.wrapperOffset.top + this.offsetY
         } else {
           // 如果为字符串 则使用运算函数
-          this.defaultHeight = `calc(${((window.screen.height + this.BScroll.wrapperOffset.top) + 'px')} + ${this.offsetY})`
+          this.defaultHeight = `calc(100vh + ${this.BScroll.wrapperOffset.top}px + ${this.offsetY})`
         }
         return
       }
