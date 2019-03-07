@@ -5,7 +5,6 @@
         @scrollEnd="horizontalScroll"
         ref="vue-horizontal-scroll"
         offsetY="55.5px"
-        height="611.5px"
         @directionYChange="directionYChange"
       )
         .header-wrapper(slot="header")
@@ -140,7 +139,7 @@ export default {
     }
   },
   mounted () {
-    this.findDataBy('Nature')
+    // this.findDataBy('Nature')
   },
   created () {
     document.body.addEventListener('touchmove', this.lockBody, {passive: false})
