@@ -106,6 +106,7 @@ export default {
         })
       }
       this.computedHeight()
+      this.BScroll.refresh()
       if (this.$slots.header) this.initWrapperScroll()
     },
     listenMovingDirectionY: function () {
