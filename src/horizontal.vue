@@ -25,7 +25,7 @@ export default {
     },
     offsetY: {
       type: String || Number,
-      default: 0
+      default: '0'
     }
   },
   data () {
