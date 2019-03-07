@@ -106,7 +106,6 @@ export default {
         })
       }
       this.computedHeight()
-      this.computedWidth()
       if (this.$slots.header) this.initWrapperScroll()
     },
     listenMovingDirectionY: function () {
@@ -126,6 +125,7 @@ export default {
     }
   },
   mounted () {
+    this.computedWidth()
     this.initBScroll()
     this.listenMovingDirectionY()
   }
