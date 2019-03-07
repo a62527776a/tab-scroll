@@ -94,7 +94,6 @@ export default {
         eventPassthrough: 'horizontal'
       })
       this.$nextTick(() => {
-        this.wrapperScroll.refresh()
         this.wrapperScroll.disable()
       })
     },
@@ -109,9 +108,11 @@ export default {
         })
       }
       this.computedHeight()
-      this.BScroll.refresh()
       if (this.$slots.header) this.initWrapperScroll()
       this.listenMovingDirectionY()
+      this.$nextTick(() => {
+        this.BScroll.refresh()
+      })
     },
     listenMovingDirectionY: function () {
       if (this.$slots.header) {
