@@ -96,12 +96,15 @@ export default {
       this.wrapperScroll.disable()
     },
     initBScroll: function () {
-      let opt = Object.assign(this.horizontalScrollDefaultOpt, this.options)
-      this.BScroll = new BScroll(this.$refs['vue-horizontal-wrapper'], opt)
-      this.BScroll.on('scrollEnd', () => {
-        this.currentIdx = this.BScroll.getCurrentPage().pageX
-        this.$emit('scrollEnd', this.currentIdx)
-      })
+      // 当只有一个竖向scroll时才能滚动
+      if (this.$slots.default.length > 1) {
+        let opt = Object.assign(this.horizontalScrollDefaultOpt, this.options)
+        this.BScroll = new BScroll(this.$refs['vue-horizontal-wrapper'], opt)
+        this.BScroll.on('scrollEnd', () => {
+          this.currentIdx = this.BScroll.getCurrentPage().pageX
+          this.$emit('scrollEnd', this.currentIdx)
+        })
+      }
       if (this.$slots.header) this.initWrapperScroll()
     },
     listenMovingDirectionY: function () {
