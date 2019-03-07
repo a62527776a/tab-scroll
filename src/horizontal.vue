@@ -105,6 +105,8 @@ export default {
           this.$emit('scrollEnd', this.currentIdx)
         })
       }
+      this.computedHeight()
+      this.computedWidth()
       if (this.$slots.header) this.initWrapperScroll()
     },
     listenMovingDirectionY: function () {
@@ -124,12 +126,8 @@ export default {
     }
   },
   mounted () {
-    this.computedHeight()
-    this.computedWidth()
-    this.$nextTick(() => {
-      this.initBScroll()
-      this.listenMovingDirectionY()
-    })
+    this.initBScroll()
+    this.listenMovingDirectionY()
   }
 }
 </script>
