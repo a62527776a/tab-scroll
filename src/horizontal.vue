@@ -93,7 +93,10 @@ export default {
         probeType: 3,
         eventPassthrough: 'horizontal'
       })
-      this.wrapperScroll.disable()
+      this.$nextTick(() => {
+        this.wrapperScroll.refresh()
+        this.wrapperScroll.disable()
+      })
     },
     initBScroll: function () {
       // 当只有一个竖向scroll时才能滚动
