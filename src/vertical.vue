@@ -62,10 +62,10 @@ export default {
         }
       })
       this.BScroll.on('pullingUp', () => {
-        this.$emit('pullingUp')
+        this.$emit('pullingUp', this.BScroll)
       })
       this.BScroll.on('pullingDown', () => {
-        this.$emit('pullingDown')
+        this.$emit('pullingDown', this.BScroll)
       })
     }
   },
