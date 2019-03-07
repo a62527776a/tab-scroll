@@ -63,10 +63,10 @@ export default {
       if (this.$slots.header) {
         // 如果为数字 则直接使用
         if (typeof this.offsetY === 'number') {
-          this.defaultHeight = window.screen.height - this.offsetY
+          this.defaultHeight = window.screen.height + this.BScroll.wrapperOffset.top + this.offsetY
         } else {
           // 如果为字符串 则使用运算函数
-          this.defaultHeight = `calc(${(window.screen.height + 'px')} - ${this.offsetY})`
+          this.defaultHeight = `calc(${((window.screen.height + this.BScroll.wrapperOffset.top) + 'px')} + ${this.offsetY})`
         }
         return
       }
@@ -108,6 +108,7 @@ export default {
       this.computedHeight()
       this.BScroll.refresh()
       if (this.$slots.header) this.initWrapperScroll()
+      this.listenMovingDirectionY()
     },
     listenMovingDirectionY: function () {
       if (this.$slots.header) {
@@ -128,7 +129,6 @@ export default {
   mounted () {
     this.computedWidth()
     this.initBScroll()
-    this.listenMovingDirectionY()
   }
 }
 </script>
