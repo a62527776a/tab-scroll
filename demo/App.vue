@@ -4,25 +4,16 @@
       vue-horizontal-scroll(
         @scrollEnd="horizontalScroll"
         ref="vue-horizontal-scroll"
-        offsetY="55.5px"
+        offsetY="34px"
         @directionYChange="directionYChange"
       )
         .header-wrapper(slot="header")
+          .title-bar {{currentTab}} - Tab-Scroll
           .tab-wrapper
             .tab-item(
               v-for="(value, key, idx) in tabs"
               :class="{'tab-item-active' : currentTab === key}"
               @click="clickTabItem(key, idx)") {{key}}
-          .tab-wrapper
-            .tab-item(
-              v-for="(value, key, idx) in tabs"
-              :class="{'tab-item-active' : currentTab === key}"
-              @click="clickTabItem(key, idx)") {{key}}
-          .tab-wrapper
-            .tab-item(
-              v-for="(value, key, idx) in tabs"
-              :class="{'tab-item-active' : currentTab === key}"
-              @click="clickTabItem(key, idx)") {{key}}{{directionY === 1 ? '向上': '向下'}}
         vue-vertical-scroll(
           :options="{pullDownRefresh: true}"
           @pullingUp="pullingUp(key)"
@@ -206,7 +197,13 @@ body {
   }
 }
 .header-wrapper {
-  height: calc(37px * 3);
   background: white;
+  .title-bar {
+    padding: 5px;
+    color: #2c3e50;
+    font-weight: bold;
+    font-size: 22px;
+    letter-spacing: 1px
+  }
 }
 </style>
