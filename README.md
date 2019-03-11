@@ -21,13 +21,16 @@ TabScroll是一个基于Vue(2.X)和Better-Scroll的滚动库，主要满足web�
 
 # Example
 
+gif图1demo
+https://dscsdoj.top/public/unsplash/index.html#/demo1
+gif图2demo
+https://dscsdoj.top/public/unsplash/index.html#/demo2
+
+所有的gif展示的实例都能在/demo/下的文件中找到源码
+
 ![顶部随手势方向状态](https://i.loli.net/2019/03/09/5c83c3df1c52a.gif)![顶部锁定状态](https://i.loli.net/2019/03/11/5c85d04d00c84.gif)
 
-
-demo
-https://dscsdoj.top/public/unsplash/index.html
-
-doc
+# 文档地址
 https://dscsdoj.top/public/tabscroll/index.html 
 
 
