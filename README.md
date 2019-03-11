@@ -114,6 +114,7 @@ export default {
 ##### Slots
 
 | Name | Description |
+| ----| -----|
 | header | 传入将会自动变为上下两层的滚动 当向下滚动时默认会滚动到下层的顶部，也就是上层隐藏 需要传入offsetY业务的偏移 |
 
 #### vue-vertical-scroll
