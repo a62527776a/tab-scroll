@@ -1,6 +1,6 @@
 <template>
   <div>
-    <vue-horizontal-scroll :lock="true">
+    <vue-horizontal-scroll :lock="true" offsetY="15vh">
       <div slot="header" style="height: 20vh;background: green"></div>
       <vue-vertical-scroll>
         <div v-for="(i, idx) in 20" :key="idx" style="border-bottom: 15px solid #EEE;height: 30vh;background: yellow"></div>

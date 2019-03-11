@@ -131,10 +131,10 @@ export default {
                 this.$emit('directionYChange', -1)
               }
             } else {
-              if (vm.componentInstance.BScroll.y < -1) {
+              if (vm.componentInstance.BScroll.movingDirectionY === 1) {
                 this.wrapperScroll.scrollTo(0, this.wrapperScroll.maxScrollY, 300, 'ease')
                 this.$emit('directionYChange', 1)
-              } else {
+              } else if (vm.componentInstance.BScroll.movingDirectionY === -1 && vm.componentInstance.BScroll.y >= 0) {
                 this.wrapperScroll.scrollTo(0, 0, 300, 'ease')
                 this.$emit('directionYChange', -1)
               }
