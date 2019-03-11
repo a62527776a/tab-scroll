@@ -1,5 +1,7 @@
-![logo.png](https://i.loli.net/2019/03/07/5c810fe69e23c.png)
-
+<p align="center">
+  <img src="https://i.loli.net/2019/03/07/5c810fe69e23c.png">
+</p>
+<br/>
 <p align="center">
 	<a href="https://www.npmjs.com/package/tab-scroll">
 		<img src="https://img.shields.io/npm/dm/tab-scroll.svg" alt="Monthly downloads">
