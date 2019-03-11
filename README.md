@@ -9,7 +9,8 @@ TabScroll是一个基于Vue(2.X)和Better-Scroll的滚动库，主要满足web�
 
 ### Example
 
-![minipng.gif](https://i.loli.net/2019/03/09/5c83c3df1c52a.gif)
+![顶部随手势方向状态](https://i.loli.net/2019/03/09/5c83c3df1c52a.gif)![顶部锁定状态](https://i.loli.net/2019/03/11/5c85d04d00c84.gif)
+
 
 demo
 https://dscsdoj.top/public/unsplash/index.html
