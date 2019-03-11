@@ -26,6 +26,10 @@ export default {
     offsetY: {
       type: String || Number,
       default: '0'
+    },
+    lock: {
+      type: Boolean,
+      default: false
     }
   },
   data () {
@@ -118,12 +122,22 @@ export default {
       if (this.$slots.header) {
         this.$slots.default.map(vm => {
           vm.componentInstance.BScroll.on('scroll', () => {
-            if (vm.componentInstance.BScroll.movingDirectionY === 1) {
-              this.wrapperScroll.scrollTo(0, this.wrapperScroll.maxScrollY, 300, 'ease')
-              this.$emit('directionYChange', 1)
+            if (!this.lock) {
+              if (vm.componentInstance.BScroll.movingDirectionY === 1) {
+                this.wrapperScroll.scrollTo(0, this.wrapperScroll.maxScrollY, 300, 'ease')
+                this.$emit('directionYChange', 1)
+              } else {
+                this.wrapperScroll.scrollTo(0, 0, 300, 'ease')
+                this.$emit('directionYChange', -1)
+              }
             } else {
-              this.wrapperScroll.scrollTo(0, 0, 300, 'ease')
-              this.$emit('directionYChange', -1)
+              if (vm.componentInstance.BScroll.y < -1) {
+                this.wrapperScroll.scrollTo(0, this.wrapperScroll.maxScrollY, 300, 'ease')
+                this.$emit('directionYChange', 1)
+              } else {
+                this.wrapperScroll.scrollTo(0, 0, 300, 'ease')
+                this.$emit('directionYChange', -1)
+              }
             }
           })
         })
