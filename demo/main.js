@@ -8,11 +8,13 @@ import tabScroll from '../src/index'
 
 import demo1 from './demo1.vue'
 import demo2 from './demo2.vue'
+import demo2X from './demo2X.vue'
 import demo3 from './demo3.vue'
 
 const routes = [
   {path: '/demo1', component: demo1},
   {path: '/demo2', component: demo2},
+  {path: '/demo2x', component: demo2X},
   {path: '/demo3', component: demo3}
 ]
 

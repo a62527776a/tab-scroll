@@ -1,7 +1,7 @@
 <template>
   <div>
-    <vue-horizontal-scroll offsetY="10vh">
-      <div slot="header" style="height: 20vh;background: green"></div>
+    <div style="height: 10vh;background: green"></div>
+    <vue-horizontal-scroll>
       <vue-vertical-scroll>
         <div v-for="(i, idx) in 20" :key="idx" class="item-block item-block-red"></div>
       </vue-vertical-scroll>
