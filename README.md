@@ -17,7 +17,9 @@ TabScroll是一个基于Vue(2.X)和Better-Scroll的滚动库，主要满足web�
 
 由于依赖Better-Scroll，所以需要对Better-Scroll具有一定的了解。 如果还没有了解过，建议先看看Better-Scroll官方文档。
 
+# 详细教程 / 介绍 
 
+https://www.jianshu.com/p/75e42677a68d
 
 # Example
 
