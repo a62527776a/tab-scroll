@@ -63,14 +63,15 @@ export default {
      */
     computedHeight: function () {
       if (this.height) return this.defaultHeight = this.height
+      let top = this.$refs['wrapper-scroll'].offsetTop
       // 如果有header的slot 那个下高度为屏幕高度 如果有自定义offsetY 则增加自定义的offsetY
       if (this.$slots.header) {
         // 如果为数字 则直接使用
         if (typeof this.offsetY === 'number') {
-          this.defaultHeight = window.screen.height + this.BScroll.wrapperOffset.top + this.offsetY
+          this.defaultHeight = window.screen.height + top + this.offsetY
         } else {
           // 如果为字符串 则使用运算函数
-          this.defaultHeight = `calc(100vh + ${this.BScroll.wrapperOffset.top}px + ${this.offsetY})`
+          this.defaultHeight = `calc(100vh + ${top}px + ${this.offsetY})`
         }
         return
       }
@@ -103,6 +104,7 @@ export default {
     },
     initBScroll: function () {
       // 当只有一个竖向scroll时才能滚动
+      if (!this.$slots.default) throw '至少拥有一个列表 当一个列表都没有的情况下，请至少填入一个占位的'
       if (this.$slots.default.length > 1) {
         let opt = Object.assign(this.horizontalScrollDefaultOpt, this.options)
         this.BScroll = new BScroll(this.$refs['vue-horizontal-wrapper'], opt)
@@ -112,6 +114,7 @@ export default {
         })
       }
       this.computedHeight()
+      this.computedWidth()
       if (this.$slots.header) this.initWrapperScroll()
       this.listenMovingDirectionY()
       this.$nextTick(() => {
@@ -121,6 +124,7 @@ export default {
     listenMovingDirectionY: function () {
       if (this.$slots.header) {
         this.$slots.default.map(vm => {
+          if (!vm.componentInstance || !vm.componentInstance.BScroll) throw '暂未找到子组件的BScroll组件，如果为动态加载，需要在加载后再次调用initBScroll'
           vm.componentInstance.BScroll.on('scroll', () => {
             if (!this.lock) {
               if (vm.componentInstance.BScroll.movingDirectionY === 1) {
@@ -145,7 +149,6 @@ export default {
     }
   },
   mounted () {
-    this.computedWidth()
     this.initBScroll()
   }
 }

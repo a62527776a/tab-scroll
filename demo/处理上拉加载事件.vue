@@ -1,6 +1,6 @@
 <template lang="pug">
   .wrapper
-    vue-horizontal-scroll(ref="vue-horizontal-scroll" offsetY="-33px" @scrollEnd="handleHorizontalScrollEnd")
+    vue-horizontal-scroll(ref="vue-horizontal-scroll" @scrollEnd="handleHorizontalScrollEnd")
       .header-bar(slot="header")
         .search-bar 写给你爱的人的情书
         .tab-bar(v-if="menus")
