@@ -27,9 +27,13 @@ https://dscsdoj.top/public/unsplash/index.html#/demo1
 gif图2demo
 https://dscsdoj.top/public/unsplash/index.html#/demo2
 
+gif图3demo
+https://dscsdoj.top/public/unsplash/index.html#/demo3
+
 所有的gif展示的实例都能在/demo/下的文件中找到源码
 
 ![顶部随手势方向状态](https://i.loli.net/2019/03/09/5c83c3df1c52a.gif)![顶部锁定状态](https://i.loli.net/2019/03/11/5c85d04d00c84.gif)
+![demo3](https://upload-images.jianshu.io/upload_images/5738345-249e02f573a6760d.gif?imageMogr2/auto-orient/strip)
 
 # 安装 / 使用
 
