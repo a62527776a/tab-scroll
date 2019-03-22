@@ -9,7 +9,7 @@
 	<a href="https://www.npmjs.com/package/tab-scroll">
 		<img src="https://img.shields.io/npm/v/tab-scroll.svg" alt="Version">
 	</a>
-	<img src="https://img.shields.io/badge/min+gzip-16_kB-blue.svg" alt="5.6 kB min+gzip">
+	<img src="https://img.shields.io/badge/min+gzip-5.6_kB-blue.svg" alt="5.6 kB min+gzip">
 </p>
 
 # 关于TabScroll
