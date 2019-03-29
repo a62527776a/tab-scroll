@@ -1,6 +1,6 @@
 <template lang="pug">
 .vue-main-scroll-wrapper(ref="wrapper-scroll" :class="{ 'has-header-wrapper' : $slots.header }")
-  .vue-main-scroll
+  .vue-main-scroll(@touchstart="moveStart" @touchmove="moveScroll" @touchend="moveEnd")
     slot(name="header")
     .vue-horizontal-wrapper(ref="vue-horizontal-wrapper")
       .vue-horizontal(:style="{ 'height' : defaultHeight, 'width': horizontalWidth}" ref="vue-horizontal")
@@ -19,6 +19,10 @@ export default {
         return {}
       }
     },
+    free: {
+      type: Boolean,
+      default: false
+    },
     height: {
       type: String,
       default: ''
@@ -34,6 +38,10 @@ export default {
   },
   data () {
     return {
+      startY: 0,
+      wrapperScrollStartY: 0,
+      moveY: 0,
+      currentPageScrollY: 0,
       BScroll: null,
       currentIdx: 0,
       defaultHeight: '100vh',
@@ -55,6 +63,20 @@ export default {
     }
   },
   methods: {
+    moveStart: function (e) {
+      this.startY = e.touches[0].clientY
+      this.wrapperScrollStartY = this.wrapperScroll.y
+    },
+    moveScroll: function (e) {
+      let offsetY = e.touches[0].clientY - this.startY
+      if (this.wrapperScroll.y === 0 && offsetY > 0) return
+      if (this.wrapperScroll.y === this.wrapperScroll.maxScrollY && offsetY < 0) return
+      this.wrapperScroll.scrollTo(0, this.wrapperScrollStartY + offsetY)
+    },
+    moveEnd: function () {
+
+    },
+    
     /**
      * @method computedHeight 计算高度
      * 用户没有传高度参数时
@@ -121,27 +143,37 @@ export default {
         this.BScroll.refresh()
       })
     },
+    listenMovingByFree: function (vm) {
+      this.currentPageScrollY = vm.componentInstance.BScroll.y
+    },
+    listenMovingByDirection: function (vm) {
+      if (!this.lock) {
+        if (vm.componentInstance.BScroll.movingDirectionY === 1) {
+          this.wrapperScroll.scrollTo(0, this.wrapperScroll.maxScrollY, 300, 'ease')
+          this.$emit('directionYChange', 1)
+        } else {
+          this.wrapperScroll.scrollTo(0, 0, 300, 'ease')
+          this.$emit('directionYChange', -1)
+        }
+      } else {
+        if (vm.componentInstance.BScroll.movingDirectionY === 1) {
+          this.wrapperScroll.scrollTo(0, this.wrapperScroll.maxScrollY, 300, 'ease')
+          this.$emit('directionYChange', 1)
+        } else if (vm.componentInstance.BScroll.movingDirectionY === -1 && vm.componentInstance.BScroll.y >= 0) {
+          this.wrapperScroll.scrollTo(0, 0, 300, 'ease')
+          this.$emit('directionYChange', -1)
+        }
+      }
+    },
     listenMovingDirectionY: function () {
       if (this.$slots.header) {
         this.$slots.default.map(vm => {
           if (!vm.componentInstance || !vm.componentInstance.BScroll) throw '暂未找到子组件的BScroll组件，如果为动态加载，需要在加载后再次调用initBScroll'
           vm.componentInstance.BScroll.on('scroll', () => {
-            if (!this.lock) {
-              if (vm.componentInstance.BScroll.movingDirectionY === 1) {
-                this.wrapperScroll.scrollTo(0, this.wrapperScroll.maxScrollY, 300, 'ease')
-                this.$emit('directionYChange', 1)
-              } else {
-                this.wrapperScroll.scrollTo(0, 0, 300, 'ease')
-                this.$emit('directionYChange', -1)
-              }
+            if (!this.free) {
+              this.listenMovingByDirection(vm)
             } else {
-              if (vm.componentInstance.BScroll.movingDirectionY === 1) {
-                this.wrapperScroll.scrollTo(0, this.wrapperScroll.maxScrollY, 300, 'ease')
-                this.$emit('directionYChange', 1)
-              } else if (vm.componentInstance.BScroll.movingDirectionY === -1 && vm.componentInstance.BScroll.y >= 0) {
-                this.wrapperScroll.scrollTo(0, 0, 300, 'ease')
-                this.$emit('directionYChange', -1)
-              }
+              this.listenMovingByFree(vm)
             }
           })
         })
