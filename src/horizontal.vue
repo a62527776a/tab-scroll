@@ -99,7 +99,7 @@ export default {
       }
       let screenHeight = window.screen.height
       // 如果没有header 则高度为屏幕高度减去上放留空的
-      let offsetTop = this.BScroll.wrapperOffset.top
+      let offsetTop = (this.BScroll && this.BScroll.wrapperOffset.top) || 0
       this.defaultHeight = (screenHeight + offsetTop) + 'px'
     },
     /**
