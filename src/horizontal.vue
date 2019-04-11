@@ -140,7 +140,7 @@ export default {
       if (this.$slots.header) this.initWrapperScroll()
       this.listenMovingDirectionY()
       this.$nextTick(() => {
-        this.BScroll.refresh()
+        this.BScroll && this.BScroll.refresh()
       })
     },
     listenMovingByFree: function (vm) {
