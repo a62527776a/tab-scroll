@@ -33,7 +33,7 @@ export default {
     return {
       BScroll: null,
       verticalScrollDefaultOpt: {
-        click: true,
+        click: false,
         scrollY: true,
         bounce: true,
         eventPassthrough: 'horizontal',
@@ -44,28 +44,42 @@ export default {
     }
   },
   methods: {
+    autoPullDownRefresh: function () {
+      this.BScroll.scrollTo(0, 100, 300)
+      setTimeout(() => {
+        this.BScroll.autoPullDownRefresh()
+      }, 300)
+    },
     initBScroll: function () {
       let opt = Object.assign(this.verticalScrollDefaultOpt, this.options)
       this.BScroll = new BScroll(this.$refs['vue-vertical-wrapper'], opt)
+      let scrollBoundle = this.BScroll.options.pullDownRefresh.stop
       this.BScroll.on('scroll', () => {
-        if (this.BScroll.y === 40) {
+        if (this.BScroll.y === scrollBoundle) {
           this.pullDownStatus = this.pullDownStatusKeyOpt['正在载入']
           this.$emit('pullDownStatusChange', '正在载入')
         }
-        if (this.BScroll.y < 40) {
+        if (this.BScroll.y < scrollBoundle) {
           this.pullDownStatus = this.pullDownStatusKeyOpt['下拉刷新']
           this.$emit('pullDownStatusChange', '下拉刷新')
         }
-        if (this.BScroll.y > 40) {
+        if (this.BScroll.y > scrollBoundle) {
           this.pullDownStatus = this.pullDownStatusKeyOpt['释放刷新']
           this.$emit('pullDownStatusChange', '释放刷新')
         }
+        this.$emit('scroll', this.BScroll.y)
       })
       this.BScroll.on('pullingUp', () => {
         this.$emit('pullingUp', this.BScroll)
       })
+      this.BScroll.on('scrollEnd', () => {
+        this.$emit('scrollEnd')
+      })
       this.BScroll.on('pullingDown', () => {
         this.$emit('pullingDown', this.BScroll)
+      })
+      this.$nextTick(() => {
+        this.$emit('inited')
       })
     }
   },
@@ -79,8 +93,7 @@ export default {
   .vue-vertical-wrapper {
     width: 100vw;
     position: relative;
-    height: 100%
-  }
+    height: 100%;
     .vue-vertical {
       min-height: calc(100% + 1px)
     }
@@ -91,4 +104,6 @@ export default {
       text-align: center;
       top: -30px;
     }
+  }
+
 </style>

@@ -1,3 +1,4 @@
+
 <template lang="pug">
 .vue-main-scroll-wrapper(ref="wrapper-scroll" :class="{ 'has-header-wrapper' : $slots.header }")
   .vue-main-scroll(@touchstart="moveStart" @touchmove="moveScroll" @touchend="moveEnd")
@@ -44,6 +45,7 @@ export default {
       currentPageScrollY: 0,
       BScroll: null,
       currentIdx: 0,
+      inited: false,
       defaultHeight: '100vh',
       horizontalWidth: '100vw',
       horizontalScrollDefaultOpt: {
@@ -65,13 +67,15 @@ export default {
   methods: {
     moveStart: function (e) {
       this.startY = e.touches[0].clientY
-      this.wrapperScrollStartY = this.wrapperScroll.y
+      if (this.wrapperScroll) this.wrapperScrollStartY = this.wrapperScroll.y
     },
     moveScroll: function (e) {
       let offsetY = e.touches[0].clientY - this.startY
-      if (this.wrapperScroll.y === 0 && offsetY > 0) return
-      if (this.wrapperScroll.y === this.wrapperScroll.maxScrollY && offsetY < 0) return
-      this.wrapperScroll.scrollTo(0, this.wrapperScrollStartY + offsetY)
+      if (this.wrapperScroll) {
+        if (this.wrapperScroll.y === 0 && offsetY > 0) return
+        if (this.wrapperScroll.y === this.wrapperScroll.maxScrollY && offsetY < 0) return
+        this.wrapperScroll.scrollTo(0, this.wrapperScrollStartY + offsetY)
+      }
     },
     moveEnd: function () {
 
@@ -84,7 +88,6 @@ export default {
      * 否则使用用户传的height
      */
     computedHeight: function () {
-      if (this.height) return this.defaultHeight = this.height
       let top = this.$refs['wrapper-scroll'].offsetTop
       // 如果有header的slot 那个下高度为屏幕高度 如果有自定义offsetY 则增加自定义的offsetY
       if (this.$slots.header) {
@@ -99,8 +102,9 @@ export default {
       }
       let screenHeight = window.screen.height
       // 如果没有header 则高度为屏幕高度减去上放留空的
-      let offsetTop = (this.BScroll && this.BScroll.wrapperOffset.top) || 0
-      this.defaultHeight = (screenHeight + offsetTop) + 'px'
+      let offsetTop = top || 0
+      this.defaultHeight = (screenHeight - offsetTop) + 'px'
+      this.inited = true
     },
     /**
      * @method computedWidth 计算容器宽度
@@ -126,7 +130,7 @@ export default {
     },
     initBScroll: function () {
       // 当只有一个竖向scroll时才能滚动
-      if (!this.$slots.default) throw '至少拥有一个列表 当一个列表都没有的情况下，请至少填入一个占位的'
+      if (!this.$slots.default) throw '至少拥有一个列表'
       if (this.$slots.default.length > 1) {
         let opt = Object.assign(this.horizontalScrollDefaultOpt, this.options)
         this.BScroll = new BScroll(this.$refs['vue-horizontal-wrapper'], opt)
@@ -134,9 +138,8 @@ export default {
           this.currentIdx = this.BScroll.getCurrentPage().pageX
           this.$emit('scrollEnd', this.currentIdx)
         })
+        this.computedWidth()
       }
-      this.computedHeight()
-      this.computedWidth()
       if (this.$slots.header) this.initWrapperScroll()
       this.listenMovingDirectionY()
       this.$nextTick(() => {
@@ -144,23 +147,23 @@ export default {
       })
     },
     listenMovingByFree: function (vm) {
-      this.currentPageScrollY = vm.componentInstance.BScroll.y
+      this.currentPageScrollY = (vm.componentInstance && vm.componentInstance.BScroll.y) || 0
     },
     listenMovingByDirection: function (vm) {
       if (!this.lock) {
         if (vm.componentInstance.BScroll.movingDirectionY === 1) {
-          this.wrapperScroll.scrollTo(0, this.wrapperScroll.maxScrollY, 300, 'ease')
           this.$emit('directionYChange', 1)
+          this.wrapperScroll && this.wrapperScroll.scrollTo(0, this.wrapperScroll.maxScrollY, 300, 'ease')
         } else {
-          this.wrapperScroll.scrollTo(0, 0, 300, 'ease')
           this.$emit('directionYChange', -1)
+          this.wrapperScroll && this.wrapperScroll.scrollTo(0, 0, 300, 'ease')
         }
       } else {
         if (vm.componentInstance.BScroll.movingDirectionY === 1) {
-          this.wrapperScroll.scrollTo(0, this.wrapperScroll.maxScrollY, 300, 'ease')
+          this.wrapperScroll && this.wrapperScroll.scrollTo(0, this.wrapperScroll.maxScrollY, 300, 'ease')
           this.$emit('directionYChange', 1)
         } else if (vm.componentInstance.BScroll.movingDirectionY === -1 && vm.componentInstance.BScroll.y >= 0) {
-          this.wrapperScroll.scrollTo(0, 0, 300, 'ease')
+          this.wrapperScroll && this.wrapperScroll.scrollTo(0, 0, 300, 'ease')
           this.$emit('directionYChange', -1)
         }
       }
@@ -178,10 +181,18 @@ export default {
           })
         })
       }
+    },
+    preventDefault: function (e) {
+      e.preventDefault()
+    },
+    lockTouchMoveEvent: function () {
+      document.body.addEventListener('touchmove', this.preventDefault, { passive: false })
     }
   },
   mounted () {
+    this.height ? this.computedHeight() : this.defaultHeight = this.height
     this.initBScroll()
+    this.lockTouchMoveEvent()
   }
 }
 </script>
