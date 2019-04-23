@@ -113,10 +113,13 @@ export default {
 | goToPage| index| Number| / | 传入下标横向滚动至哪一页|
 | computedWidth| / | / | / | 计算horizontalScroll宽度，会自动调用，一般情况下无需调用。仅用于tab栏为动态的情况下。比如从后端拉取菜单的情况。请务必包裹进$nextTick。因为它会去读取dom节点 |
 
+
+
 ##### Event
 | Name | Param | Type | Description|
 |-----|------|-------|-------------|
 |scrollEnd | pageX | Number | 横向滚动停止时会向上触发scrollEnd事件 参数为横向滚动的下标 |
+|directionYChange| directionY | Number | -1 表示从上往下滑，1 表示从下往上滑 |
 
 ##### Slots
 
@@ -133,12 +136,22 @@ export default {
 | options | Object | {} | 默认配置可以通过$refs['vue-vertical-scroll'].verticalScrollDefaultOpt查看，默认不开启下拉刷新，传入的options将merge入verticalScrollDefaultOpt中|
 |pullDownStatusKeyOpt | Object | { '下拉刷新': '下拉刷新...', '释放刷新': '释放刷新...', '正在载入': '正在载入...' } | 开启下拉刷新后将展示这下拉刷新、释放刷新、正在载入三个状态 如果需要修改，务必使用这个结构 比如 { '下拉刷新': '再拉下试试~', '释放刷新': '松开瞧瞧~~', '正在载入': '马上就好！'...' } |
 
+
 ##### Event
 | Name | Param | Type | Description|
 |-----|------|-------|-------------|
-|refresh-status-bar	 | '正在载入' / '下拉刷新' / '释放刷新' | String | 下拉刷新的时候 会触发pullDownStatusChange事件 上层如果需要自定义下拉刷新的样式，可以根据该事件 传递的参数来判断展示状态 |
+|pullDownStatusChange	 | '正在载入' / '下拉刷新' / '释放刷新' | String | 下拉刷新的时候 会触发pullDownStatusChange事件 上层如果需要自定义下拉刷新的样式，可以根据该事件 传递的参数来判断展示状态 |
 | pullingUp | BScroll实例 | / | 上拉加载 同Better-Scroll上拉加载 |
 | pullingDown | BScroll实例 | / | 下拉刷新 同Better-Scroll下拉刷新 |
+| inited | / | / | BScroll初始化事件，当初始化完成时会触发 |
+|scrollEnd|/ | / | BScroll滚动结束时触发 |
+| scroll | BScroll.y | Number | BScroll滚动时触发 会返回BScroll的Y轴坐标 |
+
+###### Methods
+
+|Name | Param | Type | Return | Description|
+|-----|-----|-----|-----|-----|
+| autoPullDownRefresh | / | / | / | 用于自动触发下拉刷新，包含自动滚动到-100PX位置以及一个触发下拉刷新的函数 |
 
 ###### Props
 
