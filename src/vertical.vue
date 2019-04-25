@@ -1,7 +1,7 @@
 <template lang="pug">
   .vue-vertical-wrapper(ref="vue-vertical-wrapper")
     .vue-vertical
-      .refresh-status-bar(v-if="options.pullDownRefresh")
+      .refresh-status-bar(v-if="options.pullDownRefresh" :style="{ 'top' : refreshStatusBarY }")
         slot(name="refresh-status-bar") {{pullDownStatus}}
       slot
 </template>
@@ -27,6 +27,10 @@ export default {
           '正在载入': '正在载入...'
         }
       }
+    },
+    refreshStatusBarY: {
+      type: String,
+      default: '-12px'
     }
   },
   data () {
@@ -108,7 +112,7 @@ export default {
       width: 100%;
       color: #7e8c8d;
       text-align: center;
-      top: -30px;
+      top: -12px;
     }
   }
 
