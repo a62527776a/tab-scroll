@@ -45,7 +45,13 @@ export default {
   },
   methods: {
     autoPullDownRefresh: function () {
-      this.BScroll.scrollTo(0, 100, 300)
+      let threshold = 0
+      try {
+        threshold = this.options.pullDownRefresh.threshold || 50
+      } catch (e) {
+        threshold = 50
+      }
+      this.BScroll.scrollTo(0, threshold, 300)
       setTimeout(() => {
         this.BScroll.autoPullDownRefresh()
       }, 300)
