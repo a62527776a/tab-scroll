@@ -8,10 +8,6 @@ function install (vm) {
 
 if (typeof window !== 'undefined' && window.Vue) install(window.Vue);
 
-export {
-  install
-}
-
 export default {
   install
 }

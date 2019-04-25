@@ -1,7 +1,7 @@
 {
   "name": "tab-scroll",
-  "version": "0.2.2",
-  "main": "/dist/tab-scroll.js",
+  "version": "0.2.3",
+  "main": "dist/tab-scroll.js",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "webpack --config ./webpack.config.js && npm publish",
