@@ -64,6 +64,10 @@ export default {
       let opt = Object.assign(this.verticalScrollDefaultOpt, this.options)
       this.BScroll = new BScroll(this.$refs['vue-vertical-wrapper'], opt)
       let scrollBoundle = this.BScroll.options.pullDownRefresh.stop
+      this.BScroll.on('beforeScrollStart', () => {
+        this.$emit('touchStart')
+        this.$emit('beforeScrollStart')
+      })
       this.BScroll.on('scroll', () => {
         if (this.BScroll.y === scrollBoundle) {
           this.pullDownStatus = this.pullDownStatusKeyOpt['正在载入']
