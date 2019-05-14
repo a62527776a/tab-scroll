@@ -68,6 +68,9 @@ export default {
         this.$emit('touchStart')
         this.$emit('beforeScrollStart')
       })
+      this.BScroll.on('touchEnd', () => {
+        this.$emit('touchEnd')
+      })
       this.BScroll.on('scroll', () => {
         if (this.BScroll.y === scrollBoundle) {
           this.pullDownStatus = this.pullDownStatusKeyOpt['正在载入']
