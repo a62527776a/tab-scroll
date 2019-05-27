@@ -3,13 +3,13 @@
     <vue-horizontal-scroll offsetY="10vh" free>
       <div slot="header" style="height: 40vh;background: green"></div>
       <vue-vertical-scroll>
-        <div v-for="(i, idx) in 20" :key="idx" class="item-block item-block-red"></div>
+        <div v-for="(i, idx) in 20" @click="alertConf" :key="idx" class="item-block item-block-red"></div>
       </vue-vertical-scroll>
       <vue-vertical-scroll>
-        <div v-for="(i, idx) in 20" :key="idx" class="item-block item-block-yellow"></div>
+        <div v-for="(i, idx) in 20" @click="alertConf" :key="idx" class="item-block item-block-yellow"></div>
       </vue-vertical-scroll>
       <vue-vertical-scroll>
-        <div v-for="(i, idx) in 20" :key="idx" class="item-block item-block-green"></div>
+        <div v-for="(i, idx) in 20" @click="alertConf" :key="idx" class="item-block item-block-green"></div>
       </vue-vertical-scroll>
     </vue-horizontal-scroll>
   </div>
@@ -17,7 +17,12 @@
 
 <script>
 export default {
-  name: 'demo2'
+  name: 'demo2',
+  methods: {
+    alertConf: function () {
+      window.alert('我想滚动停止时才触发弹窗')
+    }
+  }
 }
 </script>
 
