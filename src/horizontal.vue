@@ -136,7 +136,10 @@ export default {
         this.BScroll = new BScroll(this.$refs['vue-horizontal-wrapper'], opt)
         this.BScroll.on('scrollEnd', () => {
           this.currentIdx = this.BScroll.getCurrentPage().pageX
-          this.$emit('scrollEnd', this.currentIdx)
+          this.$emit('scrollEnd', this.currentIdx, this.BScroll)
+          this.$nextTick(() => {
+            this.computedHeight()
+          })
         })
         this.computedWidth()
       }

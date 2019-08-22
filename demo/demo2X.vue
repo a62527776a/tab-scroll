@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div style="height: 100vh;overflow: hidden">
     <div style="height: 10vh;background: green"></div>
-    <vue-horizontal-scroll>
+    <vue-horizontal-scroll @scrollEnd="scrollEnd">
       <vue-vertical-scroll>
         <div v-for="(i, idx) in 20" :key="idx" class="item-block item-block-red"></div>
       </vue-vertical-scroll>
@@ -17,7 +17,12 @@
 
 <script>
 export default {
-  name: 'demo2'
+  name: 'demo2',
+  methods: {
+    scrollEnd (pageIdx, BScroll) {
+      console.log(pageIdx, BScroll)
+    }
+  }
 }
 </script>
 
