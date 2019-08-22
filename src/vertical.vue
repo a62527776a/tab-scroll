@@ -112,7 +112,7 @@ export default {
     position: relative;
     height: 100%;
     .vue-vertical {
-      min-height: calc(100% + 1px)
+      min-height: 100%
     }
     .refresh-status-bar {
       position: absolute;

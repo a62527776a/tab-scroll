@@ -137,9 +137,6 @@ export default {
         this.BScroll.on('scrollEnd', () => {
           this.currentIdx = this.BScroll.getCurrentPage().pageX
           this.$emit('scrollEnd', this.currentIdx, this.BScroll)
-          this.$nextTick(() => {
-            this.computedHeight()
-          })
         })
         this.computedWidth()
       }
